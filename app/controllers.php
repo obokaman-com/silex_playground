@@ -1,7 +1,7 @@
 <?php
 
-use OboPlayground\ApplicationService\CreateUserCommand;
-use OboPlayground\ApplicationService\ListUser;
+use OboPlayground\Application\Service\CreateUserCommand;
+use OboPlayground\Application\Service\ListUser;
 use SimpleBus\Message\Bus\MessageBus;
 
 $app->get(

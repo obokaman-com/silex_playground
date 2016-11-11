@@ -1,6 +1,8 @@
 <?php
 
-namespace OboPlayground\DomainModel;
+namespace OboPlayground\Domain\Model;
+
+use OboPlayground\Domain\Kernel\EventRecorder;
 
 final class User implements \JsonSerializable
 {
@@ -22,6 +24,8 @@ final class User implements \JsonSerializable
 
     public static function register(UserId $a_user_id, Email $an_email, string $a_name)
     {
+        EventRecorder::instance()->recordEvent(new UserHasBeenRegistered($a_user_id, $an_email, $a_name));
+
         return new self($a_user_id, $an_email, $a_name);
     }
 

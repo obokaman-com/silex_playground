@@ -2,9 +2,9 @@
 
 namespace OboPlayground\Infrastructure\Repository\User;
 
-use OboPlayground\DomainModel\User;
-use OboPlayground\DomainModel\UserId;
-use OboPlayground\DomainModel\UserRepository;
+use OboPlayground\Domain\Model\User;
+use OboPlayground\Domain\Model\UserId;
+use OboPlayground\Domain\Model\UserRepository;
 
 final class UserRepositoryInMemory implements UserRepository
 {

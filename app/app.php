@@ -21,7 +21,7 @@ $app['orm.em.options'] = [
     'mappings' => [
         [
             'type'      => 'simple_yml',
-            'namespace' => 'OboPlayground\DomainModel',
+            'namespace' => 'OboPlayground\Domain\Model',
             'path'      => __DIR__ . '/../src/OboPlayground/Infrastructure/Repository',
         ],
     ],

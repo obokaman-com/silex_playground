@@ -1,9 +1,9 @@
 <?php
 
-namespace OboPlayground\ApplicationService;
+namespace OboPlayground\Application\Service;
 
-use OboPlayground\DomainModel\User;
-use OboPlayground\DomainModel\UserRepository;
+use OboPlayground\Domain\Model\User;
+use OboPlayground\Domain\Model\UserRepository;
 
 final class ListUser
 {

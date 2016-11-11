@@ -1,9 +1,9 @@
 <?php
 
-namespace OboPlayground\ApplicationService;
+namespace OboPlayground\Application\Service;
 
-use OboPlayground\DomainModel\Email;
-use OboPlayground\DomainModel\UserId;
+use OboPlayground\Domain\Model\Email;
+use OboPlayground\Domain\Model\UserId;
 
 final class CreateUserCommand
 {

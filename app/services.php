@@ -1,7 +1,11 @@
 <?php
-use OboPlayground\ApplicationService\CreateUser;
-use OboPlayground\ApplicationService\CreateUserCommand;
-use OboPlayground\ApplicationService\ListUser;
+use OboPlayground\Application\EventAwareMiddleware;
+use OboPlayground\Application\Service\CreateUser;
+use OboPlayground\Application\Service\CreateUserCommand;
+use OboPlayground\Application\Service\ListUser;
+use OboPlayground\Application\TransactionalMiddleware;
+use OboPlayground\Domain\Model\UserHasBeenRegistered;
+use OboPlayground\Infrastructure\Event\Symfony\EventDispatcher;
 use OboPlayground\Infrastructure\Repository\User\UserRepositoryDoctrine;
 use OboPlayground\Infrastructure\Repository\User\UserRepositoryInMemory;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
@@ -39,7 +43,12 @@ $app['repository.user'] = function ($app)
     return $app['repository.user.doctrine'];
 };
 
-/** COMMAND HANDLERS */
+$app['event_dispatcher'] = function ($app)
+{
+    return new EventDispatcher($app['dispatcher']);
+};
+
+/** COMMAND HANDLERS MAPPING */
 $app['command_bus'] = function ($app)
 {
     $command_bus = new MessageBusSupportingMiddleware();
@@ -65,5 +74,17 @@ $app['command_bus'] = function ($app)
 
     $command_bus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
 
+    $command_bus->prependMiddleware(new EventAwareMiddleware($app['event_dispatcher']));
+    $command_bus->prependMiddleware(new TransactionalMiddleware($app['orm.em']));
+
     return $command_bus;
 };
+
+/** EVENTS MAPPING */
+$app->on(
+    UserHasBeenRegistered::EVENT_KEY,
+    function ()
+    {
+        // Do something cool here when user has been registered.
+    }
+);

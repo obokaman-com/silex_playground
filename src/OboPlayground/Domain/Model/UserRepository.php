@@ -1,6 +1,6 @@
 <?php
 
-namespace OboPlayground\DomainModel;
+namespace OboPlayground\Domain\Model;
 
 interface UserRepository
 {
