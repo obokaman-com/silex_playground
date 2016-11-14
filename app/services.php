@@ -1,13 +1,20 @@
 <?php
+use Doctrine\Common\Cache\FilesystemCache;
 use OboPlayground\Application\EventAwareMiddleware;
 use OboPlayground\Application\Service\CreateUser;
 use OboPlayground\Application\Service\CreateUserCommand;
+use OboPlayground\Application\Service\EditUser;
+use OboPlayground\Application\Service\EditUserCommand;
 use OboPlayground\Application\Service\ListUser;
+use OboPlayground\Application\Service\RemoveUser;
+use OboPlayground\Application\Service\RemoveUserCommand;
 use OboPlayground\Application\TransactionalMiddleware;
+use OboPlayground\Domain\Model\UserEmailHasChanged;
 use OboPlayground\Domain\Model\UserHasBeenRegistered;
+use OboPlayground\Domain\Model\UserNameHasChanged;
 use OboPlayground\Infrastructure\Event\Symfony\EventDispatcher;
 use OboPlayground\Infrastructure\Repository\User\UserRepositoryDoctrine;
-use OboPlayground\Infrastructure\Repository\User\UserRepositoryInMemory;
+use OboPlayground\Infrastructure\Repository\User\UserRepositoryFilesystem;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\CallableResolver\CallableMap;
@@ -22,15 +29,25 @@ $app['service.user.create'] = function ($app)
     return new CreateUser($app['repository.user']);
 };
 
+$app['service.user.edit'] = function ($app)
+{
+    return new EditUser($app['repository.user']);
+};
+
+$app['service.user.remove'] = function ($app)
+{
+    return new RemoveUser($app['repository.user']);
+};
+
 $app['service.user.list'] = function ($app)
 {
     return new ListUser($app['repository.user']);
 };
 
 /** REPOSITORIES */
-$app['repository.user.in_memory'] = function ()
+$app['repository.user.filesystem'] = function ()
 {
-    return new UserRepositoryInMemory();
+    return new UserRepositoryFilesystem(new FilesystemCache(__DIR__ . '/data'));
 };
 
 $app['repository.user.doctrine'] = function ($app)
@@ -55,7 +72,9 @@ $app['command_bus'] = function ($app)
 
     $commandHandlerMap = new CallableMap(
         [
-            CreateUserCommand::class => 'service.user.create'
+            CreateUserCommand::class => 'service.user.create',
+            EditUserCommand::class   => 'service.user.edit',
+            RemoveUserCommand::class => 'service.user.remove'
         ], new ServiceLocatorAwareCallableResolver(
             function ($service) use ($app)
             {
@@ -88,3 +107,5 @@ $app->on(
         // Do something cool here when user has been registered.
     }
 );
+$app->on(UserNameHasChanged::EVENT_KEY, function (){});
+$app->on(UserEmailHasChanged::EVENT_KEY, function (){});

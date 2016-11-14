@@ -2,10 +2,9 @@
 
 namespace OboPlayground\Application\Service;
 
-use OboPlayground\Domain\Model\User;
 use OboPlayground\Domain\Model\UserRepository;
 
-final class CreateUser
+final class RemoveUser
 {
     /** @var UserRepository */
     private $user_repository;
@@ -15,11 +14,9 @@ final class CreateUser
         $this->user_repository = $a_user_repository;
     }
 
-    public function __invoke(CreateUserCommand $a_command)
+    public function __invoke(RemoveUserCommand $a_command)
     {
-        $user = User::register($a_command->userId(), $a_command->email(), $a_command->name());
-
-        $this->user_repository->persist($user);
+        $this->user_repository->remove($a_command->userId());
         $this->user_repository->flush();
     }
 }

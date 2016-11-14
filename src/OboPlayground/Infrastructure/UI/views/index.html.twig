@@ -5,6 +5,11 @@
     <title>Hello world</title>
 </head>
 <body>
-{{ dump(content) }}
+<a href="{{ url('create_user') }}">Create new user</a>
+<ul>
+{% for user in users %}
+    <li>{{ user.name }} &laquo;{{ user.email }}&raquo; - <a href="{{ url('edit_user', {'user_id': user.userId}) }}">edit</a> - <a href="{{ url('remove_user', {'user_id': user.userId}) }}">remove</a></li>
+{% endfor %}
+</ul>
 </body>
 </html>

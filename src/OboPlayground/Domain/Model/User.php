@@ -4,7 +4,7 @@ namespace OboPlayground\Domain\Model;
 
 use OboPlayground\Domain\Kernel\EventRecorder;
 
-final class User implements \JsonSerializable
+class User
 {
     /** @var UserId */
     private $user_id;
@@ -44,12 +44,27 @@ final class User implements \JsonSerializable
         return $this->name;
     }
 
-    function jsonSerialize()
+    public function changeName(string $a_new_name)
     {
-        return [
-            'user_id' => (string) $this->user_id,
-            'email'   => (string) $this->email,
-            'name'    => $this->name
-        ];
+        if ($a_new_name == $this->name)
+        {
+            return;
+        }
+
+        $this->name = $a_new_name;
+
+        EventRecorder::instance()->recordEvent(new UserNameHasChanged($this->user_id, $a_new_name));
+    }
+
+    public function changeEmail(Email $a_new_email)
+    {
+        if ($this->email->equals($a_new_email))
+        {
+            return;
+        }
+
+        $this->email = $a_new_email;
+
+        EventRecorder::instance()->recordEvent(new UserEmailHasChanged($this->user_id, $a_new_email));
     }
 }

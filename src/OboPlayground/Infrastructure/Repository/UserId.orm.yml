@@ -1,0 +1,7 @@
+OboPlayground\Domain\Model\UserId:
+    type: embeddable
+    id:
+        user_id:
+            type: guid
+            generator:
+                strategy: NONE

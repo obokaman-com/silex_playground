@@ -2,10 +2,10 @@
 
 namespace OboPlayground\Application\Service;
 
-use OboPlayground\Domain\Model\User;
+use OboPlayground\Domain\Model\UserNotFoundException;
 use OboPlayground\Domain\Model\UserRepository;
 
-final class CreateUser
+final class EditUser
 {
     /** @var UserRepository */
     private $user_repository;
@@ -15,9 +15,17 @@ final class CreateUser
         $this->user_repository = $a_user_repository;
     }
 
-    public function __invoke(CreateUserCommand $a_command)
+    public function __invoke(EditUserCommand $a_command)
     {
-        $user = User::register($a_command->userId(), $a_command->email(), $a_command->name());
+        $user = $this->user_repository->find($a_command->userId());
+
+        if (empty($user))
+        {
+            throw new UserNotFoundException();
+        }
+
+        $user->changeName($a_command->name());
+        $user->changeEmail($a_command->email());
 
         $this->user_repository->persist($user);
         $this->user_repository->flush();

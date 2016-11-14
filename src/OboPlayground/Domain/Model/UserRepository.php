@@ -16,5 +16,7 @@ interface UserRepository
 
     public function persist(User $a_user);
 
+    public function remove(UserId $a_user_id);
+
     public function flush();
 }
