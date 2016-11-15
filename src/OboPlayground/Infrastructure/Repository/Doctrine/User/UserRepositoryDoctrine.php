@@ -1,6 +1,6 @@
 <?php
 
-namespace OboPlayground\Infrastructure\Repository\User;
+namespace OboPlayground\Infrastructure\Repository\Doctrine\User;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
