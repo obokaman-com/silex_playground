@@ -1,0 +1,41 @@
+OboPlayground\Domain\Model\Company\Company:
+    type: entity
+    table: company
+    repositoryClass: OboPlayground\Infrastructure\Repository\Doctrine\CompanyRepositoryDoctrineBase
+    id:
+        id:
+            type: company_id
+    fields:
+        name:
+            type: string
+            length: 255
+    manyToMany:
+        departments:
+            targetEntity: OboPlayground\Domain\Model\Department\Department
+            joinTable:
+                name: company_department
+                joinColumns:
+                    company_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    department_id:
+                        referenceColumnName: id
+                        unique: true
+                        onDelete: CASCADE
+            cascade: ['all']
+        employees:
+            targetEntity: OboPlayground\Domain\Model\Employee\Employee
+            joinTable:
+                name: company_employee
+                joinColumns:
+                    company_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    employee_id:
+                        referenceColumnName: id
+                        unique: true
+                        onDelete: CASCADE
+            cascade: ['all']
+

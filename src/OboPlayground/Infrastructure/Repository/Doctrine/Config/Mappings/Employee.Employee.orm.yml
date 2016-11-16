@@ -1,0 +1,19 @@
+OboPlayground\Domain\Model\Employee\Employee:
+    type: entity
+    table: employee
+    repositoryClass: OboPlayground\Infrastructure\Repository\Doctrine\EmployeeRepositoryDoctrineBase
+    id:
+        id:
+            type: employee_id
+    oneToOne:
+        person:
+            targetEntity: OboPlayground\Domain\Model\Person\Person
+            joinColumn:
+                referencedColumnName: id
+                onDelete: CASCADE
+    manyToOne:
+        department:
+            targetEntity: OboPlayground\Domain\Model\Department\Department
+            joinColumn:
+                referencedColumnName: id
+                onDelete: CASCADE

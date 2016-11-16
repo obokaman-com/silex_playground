@@ -1,20 +1,26 @@
 <?php
-use Doctrine\Common\Cache\FilesystemCache;
 use OboPlayground\Application\EventAwareMiddleware;
-use OboPlayground\Application\Service\CreateUser;
-use OboPlayground\Application\Service\CreateUserCommand;
-use OboPlayground\Application\Service\EditUser;
-use OboPlayground\Application\Service\EditUserCommand;
-use OboPlayground\Application\Service\ListUser;
-use OboPlayground\Application\Service\RemoveUser;
-use OboPlayground\Application\Service\RemoveUserCommand;
+use OboPlayground\Application\Service\Company\CreateCompany;
+use OboPlayground\Application\Service\Company\CreateCompanyCommand;
+use OboPlayground\Application\Service\Company\HireRandomEmployee;
+use OboPlayground\Application\Service\Company\HireRandomEmployeeCommand;
+use OboPlayground\Application\Service\Company\ListCompany;
+use OboPlayground\Application\Service\Company\RemoveCompany;
+use OboPlayground\Application\Service\Company\RemoveCompanyCommand;
+use OboPlayground\Application\Service\Person\CreatePerson;
+use OboPlayground\Application\Service\Person\CreatePersonCommand;
+use OboPlayground\Application\Service\Person\EditPerson;
+use OboPlayground\Application\Service\Person\EditPersonCommand;
+use OboPlayground\Application\Service\Person\ListPeople;
+use OboPlayground\Application\Service\Person\RemovePerson;
+use OboPlayground\Application\Service\Person\RemovePersonCommand;
 use OboPlayground\Application\TransactionalMiddleware;
-use OboPlayground\Domain\Model\UserEmailHasChanged;
-use OboPlayground\Domain\Model\UserHasBeenRegistered;
-use OboPlayground\Domain\Model\UserNameHasChanged;
+use OboPlayground\Domain\Model\Person\PersonEmailHasChanged;
+use OboPlayground\Domain\Model\Person\PersonHasBeenRegistered;
+use OboPlayground\Domain\Model\Person\PersonNameHasChanged;
 use OboPlayground\Infrastructure\Event\Symfony\EventDispatcher;
-use OboPlayground\Infrastructure\Repository\Doctrine\User\UserRepositoryDoctrine;
-use OboPlayground\Infrastructure\Repository\Doctrine\User\UserRepositoryFilesystem;
+use OboPlayground\Infrastructure\Repository\Doctrine\Company\CompanyRepository;
+use OboPlayground\Infrastructure\Repository\Doctrine\Person\PersonRepository;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\CallableResolver\CallableMap;
@@ -24,40 +30,65 @@ use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
 use SimpleBus\Message\Name\ClassBasedNameResolver;
 
 /** APPLICATION SERVICES */
-$app['service.user.create'] = function ($app)
+$app['service.person.create'] = function ($app)
 {
-    return new CreateUser($app['repository.user']);
+    return new CreatePerson($app['repository.person']);
 };
 
-$app['service.user.edit'] = function ($app)
+$app['service.person.edit'] = function ($app)
 {
-    return new EditUser($app['repository.user']);
+    return new EditPerson($app['repository.person']);
 };
 
-$app['service.user.remove'] = function ($app)
+$app['service.person.remove'] = function ($app)
 {
-    return new RemoveUser($app['repository.user']);
+    return new RemovePerson($app['repository.person']);
 };
 
-$app['service.user.list'] = function ($app)
+$app['service.person.list'] = function ($app)
 {
-    return new ListUser($app['repository.user']);
+    return new ListPeople($app['repository.person']);
+};
+
+$app['service.company.create'] = function ($app)
+{
+    return new CreateCompany($app['repository.company']);
+};
+
+$app['service.company.remove'] = function ($app)
+{
+    return new RemoveCompany($app['repository.company']);
+};
+
+$app['service.company.hire_random'] = function ($app)
+{
+    return new HireRandomEmployee($app['repository.company'], $app['repository.person']);
+};
+
+$app['service.company.list'] = function ($app)
+{
+    return new ListCompany($app['repository.company']);
 };
 
 /** REPOSITORIES */
-$app['repository.user.filesystem'] = function ()
+$app['repository.person.doctrine'] = function ($app)
 {
-    return new UserRepositoryFilesystem(new FilesystemCache(__DIR__ . '/data'));
+    return new PersonRepository($app['doctrine']);
 };
 
-$app['repository.user.doctrine'] = function ($app)
+$app['repository.person'] = function ($app)
 {
-    return new UserRepositoryDoctrine($app['orm.em']);
+    return $app['repository.person.doctrine'];
 };
 
-$app['repository.user'] = function ($app)
+$app['repository.company.doctrine'] = function ($app)
 {
-    return $app['repository.user.doctrine'];
+    return new CompanyRepository($app['doctrine']);
+};
+
+$app['repository.company'] = function ($app)
+{
+    return $app['repository.company.doctrine'];
 };
 
 $app['event_dispatcher'] = function ($app)
@@ -72,9 +103,12 @@ $app['command_bus'] = function ($app)
 
     $commandHandlerMap = new CallableMap(
         [
-            CreateUserCommand::class => 'service.user.create',
-            EditUserCommand::class   => 'service.user.edit',
-            RemoveUserCommand::class => 'service.user.remove'
+            CreateCompanyCommand::class      => 'service.company.create',
+            RemoveCompanyCommand::class      => 'service.company.remove',
+            HireRandomEmployeeCommand::class => 'service.company.hire_random',
+            CreatePersonCommand::class       => 'service.person.create',
+            EditPersonCommand::class         => 'service.person.edit',
+            RemovePersonCommand::class       => 'service.person.remove'
         ], new ServiceLocatorAwareCallableResolver(
             function ($service) use ($app)
             {
@@ -101,11 +135,21 @@ $app['command_bus'] = function ($app)
 
 /** EVENTS MAPPING */
 $app->on(
-    UserHasBeenRegistered::EVENT_KEY,
+    PersonHasBeenRegistered::EVENT_KEY,
     function ()
     {
-        // Do something cool here when user has been registered.
+        // Do something cool here when person has been registered.
     }
 );
-$app->on(UserNameHasChanged::EVENT_KEY, function (){});
-$app->on(UserEmailHasChanged::EVENT_KEY, function (){});
+$app->on(
+    PersonNameHasChanged::EVENT_KEY,
+    function ()
+    {
+    }
+);
+$app->on(
+    PersonEmailHasChanged::EVENT_KEY,
+    function ()
+    {
+    }
+);

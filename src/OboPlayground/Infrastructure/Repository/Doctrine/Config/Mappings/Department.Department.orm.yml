@@ -1,0 +1,11 @@
+OboPlayground\Domain\Model\Department\Department:
+    type: entity
+    table: department
+    repositoryClass: OboPlayground\Infrastructure\Repository\Doctrine\DepartmentRepositoryDoctrineBase
+    id:
+        id:
+            type: department_id
+    fields:
+        name:
+            type: string
+            length: 255

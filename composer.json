@@ -5,9 +5,9 @@
         }
     },
     "require": {
-        "dflydev/doctrine-orm-service-provider": "^2.0",
-        "doctrine/dbal": "^2.5",
+        "fzaninotto/faker": "^1.6",
         "ramsey/uuid": "^3.5",
+        "saxulum/saxulum-doctrine-orm-manager-registry-provider": "^3.1",
         "saxulum/saxulum-webprofiler-provider": "^2.0",
         "silex/silex": "~2.0",
         "silex/web-profiler": "^2.0",
@@ -18,8 +18,7 @@
         "symfony/twig-bridge": "^3.1",
         "symfony/var-dumper": "^3.1",
         "symfony/yaml": "^3.1",
-        "twig/twig": "^1.27",
-        "fzaninotto/faker": "^1.6"
+        "twig/twig": "^1.27"
     },
     "config": {
         "optimize-autoloader": true

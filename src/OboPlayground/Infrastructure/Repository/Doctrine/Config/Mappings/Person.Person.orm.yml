@@ -1,0 +1,13 @@
+OboPlayground\Domain\Model\Person\Person:
+    type: entity
+    table: person
+    repositoryClass: OboPlayground\Infrastructure\Repository\Doctrine\PersonRepositoryDoctrineBase
+    id:
+        id:
+            type: person_id
+    fields:
+        email:
+            type: email
+        name:
+            type: string
+            length: 255

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: albertgarcia
- * Date: 11/11/16
- * Time: 14:16
- */
 
 namespace OboPlayground\Application;
 
