@@ -12,12 +12,12 @@ final class EventRecorder
 
     public static function instance()
     {
-        if (null === static::$instance)
+        if (null === self::$instance)
         {
-            static::$instance = new self();
+            self::$instance = new self();
         }
 
-        return static::$instance;
+        return self::$instance;
     }
 
     public function recordEvent(DomainEvent $an_event)

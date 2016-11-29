@@ -16,7 +16,7 @@ final class EmployeeId
 
     public static function uniqueId()
     {
-        return new self(Uuid::uuid4());
+        return new self(Uuid::uuid4()->toString());
     }
 
     public function __toString()

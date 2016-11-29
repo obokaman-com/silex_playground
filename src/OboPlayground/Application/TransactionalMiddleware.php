@@ -2,17 +2,18 @@
 
 namespace OboPlayground\Application;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 
 final class TransactionalMiddleware implements MessageBusMiddleware
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     private $em;
 
-    public function __construct(EntityManager $an_entity_manager)
+    public function __construct(ManagerRegistry $a_manager_registry)
     {
-        $this->em = $an_entity_manager;
+        $this->em = $a_manager_registry->getManager();
     }
 
     public function handle($message, callable $next_middleware)

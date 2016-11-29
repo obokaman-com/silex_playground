@@ -128,7 +128,7 @@ $app['command_bus'] = function ($app)
     $command_bus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
 
     $command_bus->prependMiddleware(new EventAwareMiddleware($app['event_dispatcher']));
-    $command_bus->prependMiddleware(new TransactionalMiddleware($app['orm.em']));
+    $command_bus->prependMiddleware(new TransactionalMiddleware($app['doctrine']));
 
     return $command_bus;
 };

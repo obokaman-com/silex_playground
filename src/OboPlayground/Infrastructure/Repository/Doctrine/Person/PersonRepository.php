@@ -6,7 +6,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use OboPlayground\Domain\Model\Employee\EmployedStatus;
-use OboPlayground\Domain\Model\Employee\Employee;
 use OboPlayground\Domain\Model\Person\Person;
 use OboPlayground\Domain\Model\Person\PersonId;
 use OboPlayground\Domain\Model\Person\PersonRepository as PersonRepositoryContract;
@@ -37,41 +36,7 @@ final class PersonRepository implements PersonRepositoryContract
 
     public function findByEmployedStatus(EmployedStatus $employedStatus)
     {
-        if ($employedStatus->isEmployed())
-        {
-            $query = <<<DQL
-SELECT 
-    p 
-FROM
-    OboPlayground\Domain\Model\Person\Person p
-WHERE p.id IN
-( 
-    SELECT 
-        p2.id
-    FROM 
-        OboPlayground\Domain\Model\Employee\Employee e
-            JOIN e.person p2
-)
-DQL;
-        }
-
-        if ($employedStatus->isUnemployed())
-        {
-            $query = <<<DQL
-SELECT 
-    p 
-FROM
-    OboPlayground\Domain\Model\Person\Person p
-WHERE p.id NOT IN
-( 
-    SELECT 
-        p2.id
-    FROM 
-        OboPlayground\Domain\Model\Employee\Employee e
-            JOIN e.person p2
-)
-DQL;
-        }
+        $query = $this->findByEmployedStatusDql($employedStatus);
 
         $results = $this->em->createQuery($query)->getResult();
 
@@ -110,5 +75,41 @@ DQL;
     public function flush()
     {
         $this->em->flush();
+    }
+
+    private function findByEmployedStatusDql(EmployedStatus $employedStatus):string
+    {
+        if ($employedStatus->isEmployed())
+        {
+            return <<<DQL
+SELECT 
+    p 
+FROM
+    OboPlayground\Domain\Model\Person\Person p
+WHERE p.id IN
+( 
+    SELECT 
+        p2.id
+    FROM 
+        OboPlayground\Domain\Model\Employee\Employee e
+            JOIN e.person p2
+)
+DQL;
+        }
+
+        return <<<DQL
+SELECT 
+    p 
+FROM
+    OboPlayground\Domain\Model\Person\Person p
+WHERE p.id NOT IN
+( 
+    SELECT 
+        p2.id
+    FROM 
+        OboPlayground\Domain\Model\Employee\Employee e
+            JOIN e.person p2
+)
+DQL;
     }
 }

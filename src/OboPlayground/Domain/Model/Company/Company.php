@@ -99,7 +99,7 @@ class Company
             );
         }
 
-        if ($existing_employee = $this->findEmployeeByPerson($a_new_employee))
+        if ($this->findEmployeeByPerson($a_new_employee))
         {
             throw new \InvalidArgumentException($a_new_employee->name() . ' was already hired by ' . $this->name . '.');
         }
@@ -143,7 +143,7 @@ class Company
         return $department;
     }
 
-    /** @return Person */
+    /** @return Employee */
     private function findEmployeeByPerson(Person $a_person)
     {
         $employee = $this->employees->matching(

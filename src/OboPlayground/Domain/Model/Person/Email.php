@@ -21,7 +21,7 @@ final class Email
         return $this->email;
     }
 
-    public function equals(self $a_new_email)
+    public function equals(Email $a_new_email)
     {
         return $this->email === $a_new_email->email;
     }
