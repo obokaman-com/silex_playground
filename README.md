@@ -18,7 +18,7 @@ available unemployee person to any of the available companies' departments.).
 > 
 > Note: If you are running Docker with Docker Toolbox you can view the VM ip with `docker-machine ip`. Use this IP to connect to MySQL.
 
-3.- Run `bin/console orm:schema-tool:update` to create the needed schema in the MySQL database. 
+3.- Run `bin/console orm:schema-tool:update --force` to create the needed schema in the MySQL database. 
 
 4.- Run `php -S localhost:8000 -t ./web`
 
