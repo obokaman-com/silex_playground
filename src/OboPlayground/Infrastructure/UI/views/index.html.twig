@@ -23,10 +23,10 @@
                     {% for person in unemployed %}
                         <li>
                             <strong>{{ person.name }}</strong> <em>&laquo;{{ person.email }}&raquo;</em> -
-                            <a class="btn btn-success btn-xs" href="{{ url('edit_person', {'person_id': person.personId}) }}">
+                            <a class="btn btn-success btn-xs" href="{{ url('edit_person', {'person_id': person.id}) }}">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </a>
-                            <a class="btn btn-danger btn-xs" href="{{ url('remove_person', {'person_id': person.personId}) }}">
+                            <a class="btn btn-danger btn-xs" href="{{ url('remove_person', {'person_id': person.id}) }}">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </a>
                         </li>
@@ -40,10 +40,10 @@
                     {% for person in employed %}
                         <li>
                             <strong>{{ person.name }}</strong> <em>&laquo;{{ person.email }}&raquo;</em> -
-                            <a class="btn btn-success btn-xs" href="{{ url('edit_person', {'person_id': person.personId}) }}">
+                            <a class="btn btn-success btn-xs" href="{{ url('edit_person', {'person_id': person.id}) }}">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </a>
-                            <a class="btn btn-danger btn-xs" href="{{ url('remove_person', {'person_id': person.personId}) }}">
+                            <a class="btn btn-danger btn-xs" href="{{ url('remove_person', {'person_id': person.id}) }}">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </a>
                         </li>
@@ -69,7 +69,7 @@
                     {% for company in companies %}
                         <li>
                             <p><strong>{{ company.name }}</strong> -
-                                <a class="btn btn-danger btn-xs" href="{{ url('remove_company', {'company_id': company.companyId}) }}">
+                                <a class="btn btn-danger btn-xs" href="{{ url('remove_company', {'company_id': company.id}) }}">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </a>
                             </p>

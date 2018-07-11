@@ -29,7 +29,7 @@ class Person
         return new self($a_person_id, $an_email, $a_name);
     }
 
-    public function personId()
+    public function id()
     {
         return $this->id;
     }

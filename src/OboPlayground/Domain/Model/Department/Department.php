@@ -16,7 +16,7 @@ class Department
         $this->name = $a_name;
     }
 
-    public function departmentId()
+    public function id()
     {
         return $this->id;
     }

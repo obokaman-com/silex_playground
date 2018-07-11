@@ -1,7 +1,6 @@
 OboPlayground\Domain\Model\Person\Person:
     type: entity
     table: person
-    repositoryClass: OboPlayground\Infrastructure\Repository\Doctrine\PersonRepositoryDoctrineBase
     id:
         id:
             type: person_id

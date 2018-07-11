@@ -39,7 +39,7 @@ class Company
         return new self($a_company_id, $a_name, [], []);
     }
 
-    public function companyId()
+    public function id()
     {
         return $this->id;
     }
@@ -108,7 +108,7 @@ class Company
         $this->employees->add($employee);
 
         EventRecorder::instance()->recordEvent(
-            new EmployeeHasBeenHired($this->companyId(), $department->departmentId(), $employee->employeeId())
+            new EmployeeHasBeenHired($this->id(), $department->id(), $employee->id())
         );
     }
 
@@ -122,7 +122,7 @@ class Company
 
         $this->employees->removeElement($employee);
 
-        EventRecorder::instance()->recordEvent(new EmployeeHasBeenFired($this->companyId(), $employee->employeeId()));
+        EventRecorder::instance()->recordEvent(new EmployeeHasBeenFired($this->id(), $employee->id()));
     }
 
     /** @return Department */
@@ -148,7 +148,7 @@ class Company
     {
         $employee = $this->employees->matching(
             Criteria::create()
-                ->where(Criteria::expr()->eq('person_id', $a_person->personId()))
+                ->where(Criteria::expr()->eq('id', $a_person->id()))
                 ->setFirstResult(0)
                 ->setMaxResults(1)
         )->first();

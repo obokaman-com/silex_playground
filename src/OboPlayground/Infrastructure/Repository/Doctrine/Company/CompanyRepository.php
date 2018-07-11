@@ -23,18 +23,13 @@ final class CompanyRepository implements CompanyRepositoryContract
         $this->repo = $this->em->getRepository(Company::class);
     }
 
-    /**
-     * @param CompanyId $an_company_id
-     *
-     * @return Company
-     */
-    public function find(CompanyId $an_company_id)
+    public function find(CompanyId $an_company_id): ?Company
     {
         return $this->repo->find($an_company_id);
     }
 
     /** @return Company[] */
-    public function findAll()
+    public function findAll(): array
     {
         $company_list = [];
 

@@ -12,7 +12,7 @@ available unemployee person to any of the available companies' departments.).
 
 > You can run a Docker MySQL container ready to work with the app with the following commands:
 >
-> - Initial import and run MySQL image prepared to run with this app: `docker run --detach --name silex-playground-mysql --publish 3306:3306 --env "MYSQL_ROOT_PASSWORD=playground" --env "MYSQL_DATABASE=playground" mysql`.
+> - Initial import and run MySQL image prepared to run with this app: `docker run --detach --name silex-playground-mysql --publish 3306:3306 --env "MYSQL_ROOT_PASSWORD=playground" --env "MYSQL_DATABASE=playground" mysql:5.6`.
 > - Stop MySQL container: `docker stop silex-playground-mysql`
 > - Remove MySQL container: `docker rm silex-playground-mysql` 
 > 

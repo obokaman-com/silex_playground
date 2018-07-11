@@ -1,7 +1,6 @@
 OboPlayground\Domain\Model\Employee\Employee:
     type: entity
     table: employee
-    repositoryClass: OboPlayground\Infrastructure\Repository\Doctrine\EmployeeRepositoryDoctrineBase
     id:
         id:
             type: employee_id

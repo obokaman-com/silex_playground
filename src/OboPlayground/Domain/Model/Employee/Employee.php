@@ -28,7 +28,7 @@ class Employee
         return new self(EmployeeId::uniqueId(), $a_person, $a_department);
     }
 
-    public function employeeId()
+    public function id()
     {
         return $this->id;
     }

@@ -1,7 +1,6 @@
 OboPlayground\Domain\Model\Company\Company:
     type: entity
     table: company
-    repositoryClass: OboPlayground\Infrastructure\Repository\Doctrine\CompanyRepositoryDoctrineBase
     id:
         id:
             type: company_id
