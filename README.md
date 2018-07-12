@@ -20,13 +20,14 @@ available unemployee person to any of the available companies' departments.).
 
 3.- Run `bin/console orm:schema-tool:update --force` to create the needed schema in the MySQL database. 
 
-4.- Run `php -S localhost:8000 -t ./web`
+4.- Run `composer serve` to run the built-in PHP web server.
 
 5.- Access `http://localhost:8000`
 
 6.- Enjoy
 
-Some additional info if you want to play around: 
+Some additional info if you want to play around:
+* Run tests using `composer test` 
 * Services definition with dependencies injection and Command <> Handlers maps on `./app/services.php`
 * Silex Service Providers included in `./app/app.php`
 * Routing defined in `./app/controllers.php`
