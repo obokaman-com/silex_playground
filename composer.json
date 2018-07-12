@@ -1,10 +1,6 @@
 {
-    "autoload": {
-        "psr-4": {
-            "": "src/"
-        }
-    },
     "require": {
+        "php": ">=7.1",
         "fzaninotto/faker": "^1.6",
         "ramsey/uuid": "^3.5",
         "saxulum/saxulum-doctrine-orm-manager-registry-provider": "^3.1",
@@ -20,13 +16,30 @@
         "symfony/yaml": "^3.1",
         "twig/twig": "^1.27"
     },
-    "config": {
-        "optimize-autoloader": true
+    "require-dev": {
+        "phpunit/phpunit": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "": "test/"
+        }
     },
     "scripts": {
-        "run": [
-            "echo 'Started web server on http://localhost:8000'",
+        "serve": [
             "php -S localhost:8000 -t web"
+        ],
+        "test": [
+            "./vendor/bin/phpunit --testdox"
         ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "process-timeout": 0
     }
 }
